@@ -13,10 +13,12 @@ public class SecurityConfig {
     http
       .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/h2-console/**").permitAll()
+        .requestMatchers("/", "/api/health", "/h2-console/**").permitAll()
         .anyRequest().permitAll()
       )
-      .headers(headers -> headers.frameOptions(frame -> frame.disable())); // for H2 console
+      // needed so the H2 console can render in a frame
+      .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+
     return http.build();
   }
 }
