@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 	
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -28,7 +28,7 @@ public class SecurityConfig {
           .loginProcessingUrl("/login")  // POST /login (handled by Spring Security)
           .usernameParameter("email")
           .passwordParameter("password")
-          .defaultSuccessUrl("/", true)
+          .defaultSuccessUrl("/account", true) //after successful long. redirects to users page.
           .failureUrl("/login?error")
           .permitAll()
         )
