@@ -45,6 +45,7 @@ public class Ticket {
 	
 	@Column(name = "updated_at", nullable = false)
 	private Instant updatedAt = Instant.now();
+	
 
 	public long getId() {
 		return id;
@@ -102,6 +103,12 @@ public class Ticket {
 		this.updatedAt = updatedAt;
 	}
 	
-	
+	public User getCreatedBy() {
+	    return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+	    this.createdBy = createdBy;
+	}
 
 }

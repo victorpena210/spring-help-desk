@@ -6,6 +6,9 @@
 </head>
 <body>
     <h1>My Account</h1>
+	
+	<a th:href="@{/tickets/new}">Create Ticket</a>
+	<a th:href="@{/tickets}">My Tickets</a>
 
     <p><strong>Display Name:</strong> <span th:text="${user.displayName}"></span></p>
     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>

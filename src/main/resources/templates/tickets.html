@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Tickets</title>
+</head>
+<body>
+    <h1>My Tickets</h1>
+
+    <p><a th:href="@{/tickets/new}">Create New Ticket</a></p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ticket : ${tickets}">
+                <td th:text="${ticket.title}">Title</td>
+                <td th:text="${ticket.priority}">Priority</td>
+                <td th:text="${ticket.status}">Status</td>
+                <td th:text="${ticket.createdAt}">Created At</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
