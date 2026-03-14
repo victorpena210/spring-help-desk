@@ -1,19 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Account</title>
+    <title>Dashboard</title>
     <meta charset="UTF-8">
 </head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-    <h1>My Account</h1>
-	
-	<a th:href="@{/tickets/new}">Create Ticket</a>
-	<a th:href="@{/tickets}">My Tickets</a>
+    <h1>Welcome, <span th:text="${user.displayName}">User</span></h1>
 
-    <p><strong>Display Name:</strong> <span th:text="${user.displayName}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+    <p>You are logged in as <strong th:text="${user.email}">email</strong></p>
+
+    <hr>
+
+    <h2>Quick Actions</h2>
+    <p>
+        <a th:href="@{/tickets/new}">Create Ticket</a> |
+        <a th:href="@{/tickets}">View All My Tickets</a>
+    </p>
+
+    <hr>
+
+    <h2>Account Summary</h2>
+    <p><strong>Role:</strong> <span th:text="${user.role}">ROLE_USER</span></p>
+    <p><strong>Total Tickets:</strong> <span th:text="${totalTickets}">0</span></p>
+    <p><strong>New Tickets:</strong> <span th:text="${newTickets}">0</span></p>
+
+    <hr>
+
+    <h2>Recent Tickets</h2>
+
+    <div th:if="${#lists.isEmpty(tickets)}">
+        <p>You have not created any tickets yet.</p>
+    </div>
+
+    <table border="1" th:if="${!#lists.isEmpty(tickets)}">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ticket : ${tickets}">
+                <td th:text="${ticket.title}">Title</td>
+                <td th:text="${ticket.priority}">Priority</td>
+                <td th:text="${ticket.status}">Status</td>
+                <td th:text="${ticket.createdAt}">Created At</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
 
     <form th:action="@{/logout}" method="post">
         <button type="submit">Log out</button>
