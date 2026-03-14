@@ -12,10 +12,11 @@
     </div>
 
     <form th:action="@{/register}" th:object="${registerRequest}" method="post">
-        <div>
-            <label>Email:</label>
-            <input type="email" th:field="*{email}" />
-        </div>
+		<div>
+		    <label>Email:</label>
+		    <input type="email" th:field="*{email}" />
+		    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+		</div>
 
         <div>
             <label>Display Name:</label>

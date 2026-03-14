@@ -1,0 +1,18 @@
+<nav th:fragment="navbar">
+
+    <a th:href="@{/}">Home</a>
+
+    <span th:if="${#authorization.expression('!isAuthenticated()')}">
+        <a th:href="@{/register}">Sign Up</a>
+        <a th:href="@{/login}">Sign In</a>
+    </span>
+
+    <span th:if="${#authorization.expression('isAuthenticated()')}">
+        <a th:href="@{/account}">Account</a>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
+
+</nav>

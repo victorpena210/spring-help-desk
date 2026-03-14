@@ -2,10 +2,21 @@ package com.victorpena.helpdesk.web;
 
 import com.victorpena.helpdesk.domain.TicketPriority;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class CreateTicketRequest {
 	
+	@NotBlank
+	@Size(max = 200)
 	private String title;
+	
+	@NotBlank
+	@Size(max = 4000)
 	private String description;
+	
+	@NotNull
 	private TicketPriority priority;
 	public String getTitle() {
 		return title;

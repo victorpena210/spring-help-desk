@@ -17,23 +17,27 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      http
+    	http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-          .requestMatchers("/login", "/register", "/h2-console/**", "/css/**", "/js/**").permitAll()
-          .anyRequest().authenticated()
+            .requestMatchers("/", "/login", "/register", "/h2-console/**").permitAll()
+            .anyRequest().authenticated()
         )
         .formLogin(form -> form
-          .loginPage("/login")           // GET /login (your page)
-          .loginProcessingUrl("/login")  // POST /login (handled by Spring Security)
-          .usernameParameter("email")
-          .passwordParameter("password")
-          .defaultSuccessUrl("/account", true) //after successful long. redirects to users page.
-          .failureUrl("/login?error")
-          .permitAll()
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/account", true)
+            .failureUrl("/login?error")
         )
-        .headers(headers -> headers.frameOptions(frame -> frame.disable())); // for H2 console
-
+        .logout(logout -> logout
+            .logoutSuccessUrl("/login?logout")
+            .permitAll()
+        )
+        .headers(headers -> headers
+            .frameOptions(frame -> frame.disable())
+        );
       return http.build();
     }
 }
