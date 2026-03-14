@@ -4,8 +4,7 @@
     <title>My Tickets</title>
 </head>
 <body>
-	<div th:replace="fragments/navbar :: navbar"></div>
-
+<div th:replace="~{fragments/navbar :: navbar}"></div>
     <h1>My Tickets</h1>
 
     <p><a th:href="@{/tickets/new}">Create New Ticket</a></p>

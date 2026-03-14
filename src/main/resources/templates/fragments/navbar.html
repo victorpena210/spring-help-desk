@@ -1,18 +1,24 @@
-<nav th:fragment="navbar">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
 
+<nav th:fragment="navbar">
     <a th:href="@{/}">Home</a>
 
-    <span th:if="${#authorization.expression('!isAuthenticated()')}">
+    <span sec:authorize="isAnonymous()">
         <a th:href="@{/register}">Sign Up</a>
         <a th:href="@{/login}">Sign In</a>
     </span>
 
-    <span th:if="${#authorization.expression('isAuthenticated()')}">
+    <span sec:authorize="isAuthenticated()">
         <a th:href="@{/account}">Account</a>
 
-        <form th:action="@{/logout}" method="post">
+        <form th:action="@{/logout}" method="post" style="display:inline;">
             <button type="submit">Logout</button>
         </form>
     </span>
-
 </nav>
+
+</body>
+</html>
