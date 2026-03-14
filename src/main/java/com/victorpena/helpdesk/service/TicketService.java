@@ -36,4 +36,9 @@ public class TicketService {
     public List<Ticket> findTicketsForUser(User user) {
         return tickets.findByCreatedByOrderByCreatedAtDesc(user);
     }
+    
+    public Ticket findTicketForUser(Long id, User user) {
+        return tickets.findByIdAndCreatedBy(id, user)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+    }
 }

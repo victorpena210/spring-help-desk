@@ -10,6 +10,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.victorpena.helpdesk.service.AuthService;
 import com.victorpena.helpdesk.web.RegisterRequest;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
+
 @Controller
 public class AuthController {
 
@@ -27,9 +31,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(
-            @ModelAttribute RegisterRequest registerRequest,
+            @Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest,
+            BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             Model model) {
+    	
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
 
         try {
             authService.register(registerRequest);

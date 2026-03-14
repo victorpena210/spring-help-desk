@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ticket Details</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <h1>Ticket Details</h1>
+
+    <p><strong>ID:</strong> <span th:text="${ticket.id}">1</span></p>
+    <p><strong>Title:</strong> <span th:text="${ticket.title}">Ticket Title</span></p>
+    <p><strong>Status:</strong> <span th:text="${ticket.status}">NEW</span></p>
+    <p><strong>Priority:</strong> <span th:text="${ticket.priority}">LOW</span></p>
+    <p><strong>Created At:</strong> <span th:text="${ticket.createdAt}">timestamp</span></p>
+    <p><strong>Updated At:</strong> <span th:text="${ticket.updatedAt}">timestamp</span></p>
+
+
+    <hr>
+
+    <h2>Description</h2>
+    <p th:text="${ticket.description}">Ticket description goes here.</p>
+
+    <hr>
+
+    <p>
+        <a th:href="@{/tickets}">Back to My Tickets</a>
+    </p>
+</body>
+</html>

@@ -9,7 +9,11 @@
 
     <p><a th:href="@{/tickets/new}">Create New Ticket</a></p>
 
-    <table border="1">
+	<div th:if="${#lists.isEmpty(tickets)}">
+	    <p>You have not created any tickets yet.</p>
+	</div>
+	
+	<table border="1" th:if="${!#lists.isEmpty(tickets)}">
         <thead>
             <tr>
                 <th>Title</th>
@@ -20,7 +24,9 @@
         </thead>
         <tbody>
             <tr th:each="ticket : ${tickets}">
-                <td th:text="${ticket.title}">Title</td>
+				<td>
+					<a th:href="@{/tickets/{id}(id=${ticket.id})}" th:text="${ticket.title}">Title</a>
+				</td>
                 <td th:text="${ticket.priority}">Priority</td>
                 <td th:text="${ticket.status}">Status</td>
                 <td th:text="${ticket.createdAt}">Created At</td>

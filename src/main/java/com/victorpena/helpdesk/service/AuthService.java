@@ -20,14 +20,14 @@ public class AuthService {
 	}
 	
 	public void register(RegisterRequest request) {
-		if (users.findByEmail(request.getEmail()).isPresent()) {
-			throw new IllegalArgumentException("Email is already registered");
+		if (users.findByEmail(request.getEmail().trim().toLowerCase()).isPresent()) {
+		    throw new IllegalArgumentException("Email is already registered");
 		}
-		
+
 		if (!request.getPassword().equals(request.getConfirmPassword())) {
-			throw new IllegalArgumentException("passwords do now match");
+		    throw new IllegalArgumentException("Passwords do not match");
 		}
-		
+
 		User user = new User();
 		user.setEmail(request.getEmail().trim().toLowerCase());
 		user.setDisplayName(request.getDisplayName().trim());

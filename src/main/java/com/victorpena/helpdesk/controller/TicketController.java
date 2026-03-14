@@ -11,6 +11,10 @@ import com.victorpena.helpdesk.repo.UserRepository;
 import com.victorpena.helpdesk.service.TicketService;
 import com.victorpena.helpdesk.web.CreateTicketRequest;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import com.victorpena.helpdesk.domain.Ticket;
+
+
 @Controller
 public class TicketController {
 
@@ -29,7 +33,16 @@ public class TicketController {
     }
 
     @PostMapping("/tickets")
-    public String createTicket(CreateTicketRequest request, Authentication authentication) {
+    public String createTicket(@jakarta.validation.Valid CreateTicketRequest request,
+                               org.springframework.validation.BindingResult bindingResult,
+                               Authentication authentication,
+                               Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ticket", request);
+            return "new-ticket";
+        }
+
         String email = authentication.getName();
 
         User user = users.findByEmail(email)
@@ -49,4 +62,21 @@ public class TicketController {
         model.addAttribute("tickets", ticketService.findTicketsForUser(user));
         return "tickets";
     }
+    
+    @GetMapping("/tickets/{id}")
+    public String ticketDetails(@PathVariable Long id,
+                                Authentication authentication,
+                                Model model) {
+
+        String email = authentication.getName();
+
+        User user = users.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Ticket ticket = ticketService.findTicketForUser(id, user);
+
+        model.addAttribute("ticket", ticket);
+        return "ticket-details";
+    }
+
 }
