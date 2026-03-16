@@ -8,15 +8,15 @@ import jakarta.validation.constraints.Size;
 
 public class CreateTicketRequest {
 	
-	@NotBlank
-	@Size(max = 200)
+	@NotBlank(message = "Title is required")
+	@Size(max = 200, message = "Title must be 200 characters or less")
 	private String title;
 	
-	@NotBlank
-	@Size(max = 4000)
+	@NotBlank(message = "Description is required")
+	@Size(max = 4000, message = "Description must be 4000 characters or less")
 	private String description;
 	
-	@NotNull
+	@NotNull(message = "Please select a priority")
 	private TicketPriority priority;
 	public String getTitle() {
 		return title;

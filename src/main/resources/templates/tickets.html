@@ -2,10 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Tickets</title>
+	<link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
     <h1>My Tickets</h1>
+	
+	<div th:if="${successMessage}">
+	    <p th:text="${successMessage}"></p>
+	</div>
 
     <p><a th:href="@{/tickets/new}">Create New Ticket</a></p>
 
@@ -29,8 +34,7 @@
 				</td>
                 <td th:text="${ticket.priority}">Priority</td>
                 <td th:text="${ticket.status}">Status</td>
-                <td th:text="${ticket.createdAt}">Created At</td>
-            </tr>
+				<td th:text="${ticket.createdAtFormatted}">Created At</td>            </tr>
         </tbody>
     </table>
 </body>

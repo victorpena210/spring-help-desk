@@ -1,6 +1,8 @@
 package com.victorpena.helpdesk.domain;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -87,16 +89,23 @@ public class Ticket {
 		this.status = status;
 	}
 
-	public Instant getCreatedAt() {
-		return createdAt;
+	public String getCreatedAtFormatted() {
+	    if (createdAt == null) return "";
+	    return DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a")
+	            .withZone(ZoneId.systemDefault())
+	            .format(createdAt);
 	}
+
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Instant getUpdatedAt() {
-		return updatedAt;
+	public String getUpdatedAtFormatted() {
+	    if (updatedAt == null) return "";
+	    return DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a")
+	            .withZone(ZoneId.systemDefault())
+	            .format(updatedAt);
 	}
 
 	public void setUpdatedAt(Instant updatedAt) {

@@ -3,55 +3,61 @@
 <head>
     <title>Dashboard</title>
     <meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
-    <h1>Welcome, <span th:text="${user.displayName}">User</span></h1>
+	
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	<div class="container">
+		<h1>Welcome, <span th:text="${user.displayName}">User</span></h1>
 
-    <p>You are logged in as <strong th:text="${user.email}">email</strong></p>
+		    <p>You are logged in as <strong th:text="${user.email}">email</strong></p>
 
-    <hr>
+		    <hr>
 
-    <h2>Quick Actions</h2>
-    <p>
-        <a th:href="@{/tickets/new}">Create Ticket</a> |
-        <a th:href="@{/tickets}">View All My Tickets</a>
-    </p>
+		    <h2>Quick Actions</h2>
+		    <p>
+		        <a th:href="@{/tickets/new}">Create Ticket</a> |
+		        <a th:href="@{/tickets}">View All My Tickets</a>
+		    </p>
 
-    <hr>
+		    <hr>
 
-    <h2>Account Summary</h2>
-    <p><strong>Role:</strong> <span th:text="${user.role}">ROLE_USER</span></p>
-    <p><strong>Total Tickets:</strong> <span th:text="${totalTickets}">0</span></p>
-    <p><strong>New Tickets:</strong> <span th:text="${newTickets}">0</span></p>
+		    <h2>Account Summary</h2>
+		    <p><strong>Role:</strong> <span th:text="${user.role}">ROLE_USER</span></p>
+		    <p><strong>Total Tickets:</strong> <span th:text="${totalTickets}">0</span></p>
+		    <p><strong>New Tickets:</strong> <span th:text="${newTickets}">0</span></p>
 
-    <hr>
+		    <hr>
 
-    <h2>Recent Tickets</h2>
+		    <h2>Recent Tickets</h2>
 
-    <div th:if="${#lists.isEmpty(tickets)}">
-        <p>You have not created any tickets yet.</p>
-    </div>
+		    <div th:if="${#lists.isEmpty(tickets)}">
+		        <p>You have not created any tickets yet.</p>
+		    </div>
 
-    <table border="1" th:if="${!#lists.isEmpty(tickets)}">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="ticket : ${tickets}">
-				<td>
-				    <a th:href="@{/tickets/{id}(id=${ticket.id})}" th:text="${ticket.title}">Title</a>
-				</td>
-                <td th:text="${ticket.priority}">Priority</td>
-                <td th:text="${ticket.status}">Status</td>
-                <td th:text="${ticket.createdAt}">Created At</td>
-            </tr>
-        </tbody>
-    </table>
+		    <table border="1" th:if="${!#lists.isEmpty(tickets)}">
+		        <thead>
+		            <tr>
+		                <th>Title</th>
+		                <th>Priority</th>
+		                <th>Status</th>
+		                <th>Created At</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr th:each="ticket : ${tickets}">
+						<td>
+						    <a th:href="@{/tickets/{id}(id=${ticket.id})}" th:text="${ticket.title}">Title</a>
+						</td>
+		                <td th:text="${ticket.priority}">Priority</td>
+		                <td th:text="${ticket.status}">Status</td>
+						<span th:text="${ticket.createdAtFormatted}">timestamp</span>
+		            </tr>
+		        </tbody>
+		    </table>
+	</div>
+    
 
     <hr>
 

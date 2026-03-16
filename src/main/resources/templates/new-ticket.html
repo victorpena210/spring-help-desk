@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create Ticket</title>
+	<link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -22,11 +23,12 @@
 
         <div>
             <label>Priority</label>
-            <select th:field="*{priority}">
-                <option value="LOW">Low</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HIGH">High</option>
-            </select>
+			<select th:field="*{priority}">
+			    <option value="">-- Select Priority --</option>
+			    <option value="LOW">Low</option>
+			    <option value="MEDIUM">Medium</option>
+			    <option value="HIGH">High</option>
+			</select>
 			<div th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></div>
         </div>
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.victorpena.helpdesk.domain.User;
 import com.victorpena.helpdesk.repo.UserRepository;
@@ -36,7 +37,7 @@ public class TicketController {
     public String createTicket(@jakarta.validation.Valid CreateTicketRequest request,
                                org.springframework.validation.BindingResult bindingResult,
                                Authentication authentication,
-                               Model model) {
+                               Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("ticket", request);
@@ -49,6 +50,8 @@ public class TicketController {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         ticketService.createTicket(request, user);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket created successfully.");
+
         return "redirect:/tickets";
     }
 
