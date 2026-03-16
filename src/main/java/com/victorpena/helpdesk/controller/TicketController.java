@@ -15,6 +15,10 @@ import com.victorpena.helpdesk.web.CreateTicketRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.victorpena.helpdesk.domain.Ticket;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.victorpena.helpdesk.domain.TicketStatus;
+
 
 @Controller
 public class TicketController {
@@ -80,6 +84,23 @@ public class TicketController {
 
         model.addAttribute("ticket", ticket);
         return "ticket-details";
+    }
+    
+    @PostMapping("/tickets/{id}/status")
+    public String updateTicketStatus(@PathVariable Long id,
+                                     @RequestParam("status") TicketStatus status,
+                                     Authentication authentication,
+                                     RedirectAttributes redirectAttributes) {
+
+        String email = authentication.getName();
+
+        User user = users.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        ticketService.updateStatus(id, user, status);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket status updated successfully.");
+        return "redirect:/tickets/" + id;
     }
 
 }

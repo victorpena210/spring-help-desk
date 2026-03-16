@@ -41,4 +41,12 @@ public class TicketService {
         return tickets.findByIdAndCreatedBy(id, user)
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
     }
+    
+    public Ticket updateStatus(Long id, User user, TicketStatus status) {
+    	Ticket ticket = tickets.findByIdAndCreatedBy(id, user)
+    			.orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+    	ticket.setStatus(status);
+    	ticket.setUpdatedAt(Instant.now());
+    	return tickets.save(ticket);
+    }
 }
