@@ -18,25 +18,25 @@
     <p><strong>Title:</strong> <span th:text="${ticket.title}">Ticket Title</span></p>
     <p><strong>Status:</strong> <span th:text="${ticket.status}">NEW</span></p>
     <p><strong>Priority:</strong> <span th:text="${ticket.priority}">LOW</span></p>
-    <p><strong>Created At:</strong> <span th:text="${ticket.createdAt}">timestamp</span></p>
-    <p><strong>Updated At:</strong> <span th:text="${ticket.updatedAt}">timestamp</span></p>
-
+	<p><strong>Created At:</strong> <span th:text="${ticket.createdAtFormatted}">timestamp</span></p>
+	<p><strong>Updated At:</strong> <span th:text="${ticket.updatedAtFormatted}">timestamp</span></p>
     <hr>
 
     <h2>Update Status</h2>
+	<h2>Ticket Actions</h2>
 
-    <form th:action="@{/tickets/{id}/status(id=${ticket.id})}" method="post">
-        <label for="status">Status:</label>
-        <select id="status" name="status">
-            <option value="NEW" th:selected="${ticket.status.name() == 'NEW'}">NEW</option>
-            <option value="OPEN" th:selected="${ticket.status.name() == 'OPEN'}">OPEN</option>
-            <option value="PENDING_CUSTOMER" th:selected="${ticket.status.name() == 'PENDING_CUSTOMER'}">PENDING_CUSTOMER</option>
-            <option value="RESOLVED" th:selected="${ticket.status.name() == 'RESOLVED'}">RESOLVED</option>
-            <option value="CLOSED" th:selected="${ticket.status.name() == 'CLOSED'}">CLOSED</option>
-        </select>
+	<div th:if="${ticket.status.name() != 'CLOSED'}">
+	    <form th:action="@{/tickets/{id}/close(id=${ticket.id})}" method="post">
+	        <button type="submit">Close Ticket</button>
+	    </form>
+	</div>
 
-        <button type="submit">Update Status</button>
-    </form>
+	<div th:if="${ticket.status.name() == 'CLOSED' or ticket.status.name() == 'RESOLVED'}">
+	    <form th:action="@{/tickets/{id}/reopen(id=${ticket.id})}" method="post">
+	        <button type="submit">Reopen Ticket</button>
+	    </form>
+	</div>
+    
 
     <hr>
 

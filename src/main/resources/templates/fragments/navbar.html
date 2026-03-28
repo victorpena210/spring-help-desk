@@ -11,13 +11,17 @@
         <a th:href="@{/login}">Sign In</a>
     </span>
 
-    <span sec:authorize="isAuthenticated()">
-        <a th:href="@{/account}">Account</a>
+	<span sec:authorize="isAuthenticated()">
+	    <a th:href="@{/account}">Account</a>
 
-        <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit">Logout</button>
-        </form>
-    </span>
+	    <span sec:authorize="hasAnyRole('AGENT','ADMIN')">
+	        <a th:href="@{/agent/tickets}">Agent Dashboard</a>
+	    </span>
+
+	    <form th:action="@{/logout}" method="post" style="display:inline;">
+	        <button type="submit">Logout</button>
+	    </form>
+	</span>
 </nav>
 
 </body>

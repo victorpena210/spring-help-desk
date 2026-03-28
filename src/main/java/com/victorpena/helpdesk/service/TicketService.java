@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.victorpena.helpdesk.domain.Ticket;
+import com.victorpena.helpdesk.domain.TicketPriority;
 import com.victorpena.helpdesk.domain.TicketStatus;
 import com.victorpena.helpdesk.domain.User;
 import com.victorpena.helpdesk.repo.TicketRepository;
@@ -42,11 +43,79 @@ public class TicketService {
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
     }
     
-    public Ticket updateStatus(Long id, User user, TicketStatus status) {
-    	Ticket ticket = tickets.findByIdAndCreatedBy(id, user)
-    			.orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
-    	ticket.setStatus(status);
-    	ticket.setUpdatedAt(Instant.now());
-    	return tickets.save(ticket);
+    public Ticket closeTicketForRequester(Long id, User user) {
+        Ticket ticket = tickets.findByIdAndCreatedBy(id, user)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+
+        if (ticket.getStatus() == TicketStatus.CLOSED) {
+            throw new IllegalStateException("Ticket is already closed");
+        }
+
+        ticket.setStatus(TicketStatus.CLOSED);
+        ticket.setUpdatedAt(Instant.now());
+
+        return tickets.save(ticket);
     }
+
+    public Ticket reopenTicketForRequester(Long id, User user) {
+        Ticket ticket = tickets.findByIdAndCreatedBy(id, user)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+
+        if (ticket.getStatus() != TicketStatus.CLOSED &&
+            ticket.getStatus() != TicketStatus.RESOLVED) {
+            throw new IllegalStateException("Only closed or resolved tickets can be reopened");
+        }
+
+        ticket.setStatus(TicketStatus.NEW);
+        ticket.setUpdatedAt(Instant.now());
+
+        return tickets.save(ticket);
+    }
+
+    
+    public Ticket assignTicketToAgent(Long id, User agent) {
+        Ticket ticket = tickets.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+
+        ticket.setAssignedTo(agent);
+        ticket.setUpdatedAt(Instant.now());
+
+        return tickets.save(ticket);
+    }
+    
+    public Ticket updateStatusForAgent(Long id, TicketStatus status) {
+        Ticket ticket = tickets.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+
+        ticket.setStatus(status);
+        ticket.setUpdatedAt(Instant.now());
+
+        return tickets.save(ticket);
+    }
+    
+    public List<Ticket> findAllTickets() {
+        return tickets.findAllByOrderByCreatedAtDesc();
+    }
+
+    public List<Ticket> findTicketsForAgent(TicketStatus status, TicketPriority priority) {
+        if (status != null && priority != null) {
+            return tickets.findByStatusAndPriorityOrderByCreatedAtDesc(status, priority);
+        }
+        if (status != null) {
+            return tickets.findByStatusOrderByCreatedAtDesc(status);
+        }
+        if (priority != null) {
+            return tickets.findByPriorityOrderByCreatedAtDesc(priority);
+        }
+        return tickets.findAllByOrderByCreatedAtDesc();
+    }
+
+    public Ticket findAnyTicketById(Long id) {
+        return tickets.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+    }
+
+
+    
+    
 }

@@ -42,6 +42,11 @@ public class Ticket {
 	@JoinColumn(name = "created_by_id", nullable = false)
 	private User createdBy;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "assigned_to_id")
+	private User assignedTo;
+		
+	
 	@Column(name = "created_at", nullable = false)
 	private Instant createdAt = Instant.now();
 	
@@ -118,6 +123,14 @@ public class Ticket {
 
 	public void setCreatedBy(User createdBy) {
 	    this.createdBy = createdBy;
+	}
+	
+	public User getAssignedTo() {
+	    return assignedTo;
+	}
+	
+	public void setAssignedTo(User assignedTo) {
+	    this.assignedTo = assignedTo;
 	}
 
 }

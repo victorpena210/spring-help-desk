@@ -50,9 +50,9 @@
 						<td>
 						    <a th:href="@{/tickets/{id}(id=${ticket.id})}" th:text="${ticket.title}">Title</a>
 						</td>
-		                <td th:text="${ticket.priority}">Priority</td>
-		                <td th:text="${ticket.status}">Status</td>
-						<span th:text="${ticket.createdAtFormatted}">timestamp</span>
+						<td th:text="${ticket.priority}">Priority</td>
+						<td th:text="${ticket.status}">Status</td>
+						<td th:text="${ticket.createdAtFormatted}">timestamp</td>
 		            </tr>
 		        </tbody>
 		    </table>

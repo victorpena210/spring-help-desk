@@ -86,21 +86,38 @@ public class TicketController {
         return "ticket-details";
     }
     
-    @PostMapping("/tickets/{id}/status")
-    public String updateTicketStatus(@PathVariable Long id,
-                                     @RequestParam("status") TicketStatus status,
-                                     Authentication authentication,
-                                     RedirectAttributes redirectAttributes) {
+    
+    @PostMapping("/tickets/{id}/close")
+    public String closeTicket(@PathVariable Long id,
+                              Authentication authentication,
+                              RedirectAttributes redirectAttributes) {
 
         String email = authentication.getName();
 
         User user = users.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        ticketService.updateStatus(id, user, status);
+        ticketService.closeTicketForRequester(id, user);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Ticket status updated successfully.");
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket closed successfully.");
         return "redirect:/tickets/" + id;
     }
+
+    @PostMapping("/tickets/{id}/reopen")
+    public String reopenTicket(@PathVariable Long id,
+                               Authentication authentication,
+                               RedirectAttributes redirectAttributes) {
+
+        String email = authentication.getName();
+
+        User user = users.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        ticketService.reopenTicketForRequester(id, user);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket reopened successfully.");
+        return "redirect:/tickets/" + id;
+    }
+   
 
 }

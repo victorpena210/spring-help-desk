@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agent Ticket Details</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h1>Agent Ticket Details</h1>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<p><strong>ID:</strong> <span th:text="${ticket.id}">1</span></p>
+<p><strong>Title:</strong> <span th:text="${ticket.title}">Ticket Title</span></p>
+<p><strong>Description:</strong> <span th:text="${ticket.description}">Ticket description</span></p>
+<p><strong>Priority:</strong> <span th:text="${ticket.priority}">HIGH</span></p>
+<p><strong>Status:</strong> <span th:text="${ticket.status}">NEW</span></p>
+
+<p>
+    <strong>Created By:</strong>
+    <span th:text="${ticket.createdBy.displayName}">Requester Name</span>
+</p>
+
+<p>
+    <strong>Requester Email:</strong>
+    <span th:text="${ticket.createdBy.email}">requester@email.com</span>
+</p>
+
+<p>
+    <strong>Assigned To:</strong>
+    <span th:if="${ticket.assignedTo != null}" th:text="${ticket.assignedTo.displayName}">Agent Name</span>
+    <span th:if="${ticket.assignedTo == null}">Unassigned</span>
+</p>
+
+<p><strong>Created At:</strong> <span th:text="${ticket.createdAtFormatted}">timestamp</span></p>
+<p><strong>Updated At:</strong> <span th:text="${ticket.updatedAtFormatted}">timestamp</span></p>
+
+<hr>
+
+<h2>Assign Ticket</h2>
+<form th:action="@{/agent/tickets/{id}/assign(id=${ticket.id})}" method="post">
+    <button type="submit">Assign To Me</button>
+</form>
+
+<hr>
+
+<h2>Update Status</h2>
+<form th:action="@{/agent/tickets/{id}/status(id=${ticket.id})}" method="post">
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+        <option th:each="statusOption : ${statuses}"
+                th:value="${statusOption}"
+                th:text="${statusOption}"
+                th:selected="${ticket.status == statusOption}">
+        </option>
+    </select>
+
+    <button type="submit">Update Status</button>
+</form>
+
+<hr>
+
+<p>
+    <a th:href="@{/agent/tickets}">Back to Agent Dashboard</a>
+</p>
+
+</body>
+</html>
