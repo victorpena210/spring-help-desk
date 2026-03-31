@@ -16,5 +16,40 @@
         <a th:href="@{/register}">Register</a>
     </div>
 
+	
+	<h2>How to Test the Application</h2>
+	<p>
+	  This HelpDesk app includes three roles: <strong>Requester</strong>, <strong>Agent</strong>, and <strong>Admin</strong>.
+	  Use the guide below to test the full workflow from ticket creation to ticket review.
+	</p>
+
+	<h3>Roles</h3>
+	<ul>
+	  <li><strong>Requester</strong> – Creates an account, submits support tickets, and views their own tickets.</li>
+	  <li><strong>Agent</strong> – Logs in to view and manage tickets submitted by requesters.</li>
+	</ul>
+
+	<h3>Recommended Test Flow</h3>
+	<ol>
+	  <li>Register a new test account as a <strong>Requester</strong>.</li>
+	  <li>Log in with that test account.</li>
+	  <li>Create one or more support tickets.</li>
+	  <li>Log out of the requester account.</li>
+	  <li>Log in as an <strong>Agent</strong> to view and work with the submitted tickets.</li>
+	  <li>Log in as an <strong>Admin</strong> to test administrative access and privileged views.</li>
+	</ol>
+
+	<h3>Demo Accounts</h3>
+
+	<p><strong>Agent Account</strong></p>
+	<ul>
+	  <li>Email: <code>agent@helpdesk.com</code></li>
+	  <li>Password: <code>Agent123!</code></li>
+	</ul>
+
+	<p>
+	  For the best demo experience, start by creating a new requester account and submitting a few tickets.
+	  Then sign in as the agent account to confirm that those tickets appear in the agent dashboard.
+	</p>
 </body>
 </html>
